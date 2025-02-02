@@ -16,7 +16,7 @@ const collectedWastesSchema: Schema<ICollectedWaste> = new Schema(
     },
     collectorId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Users", // Reference to the Users collection
+      ref: "User", // Reference to the Users collection
       required: true,
     },
     collectionDate: {

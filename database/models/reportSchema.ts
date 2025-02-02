@@ -9,6 +9,7 @@ export interface IReport extends Document {
   status: string;
   createdAt?: Date;
   updatedAt?: Date;
+  collectorId:mongoose.Schema.Types.ObjectId;
 }
 
 
@@ -41,6 +42,10 @@ const reportSchema: Schema<IReport> = new Schema(
       default: "pending",
       required: true,
     },
+    collectorId:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    }
   },
   { timestamps: true }
 )
