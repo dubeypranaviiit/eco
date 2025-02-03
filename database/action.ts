@@ -86,8 +86,9 @@ export async function getRewardTransactions(userId: number) {
   }
 export async function getUserBalance(userId: number): Promise<number> {
     try {
-      const transactions = await getRewardTransactions(userId);
-      const balance = transactions.reduce((acc, transaction) => {
+      const transactions = await getRewardTransactions(userId) || [];
+       if(!transactions) return 0;
+      const balance = transactions.reduce((acc:number, transaction:any) => {
         return transaction.type.startsWith('earned') ? acc + transaction.amount : acc - transaction.amount;
       }, 0); 
       return Math.max(balance, 0);

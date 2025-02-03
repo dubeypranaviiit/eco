@@ -1,9 +1,8 @@
 import mongoose from 'mongoose';
-
-const MONGODB_URL: string = process.env.MONGODB_URI || '';
+const MONGODB_URL: string = process.env.MONGODB_URL || 'mongodb://localhost:27017/Ed-tech';
 
 if (!MONGODB_URL) {
-  throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
+  throw new Error('Please define the MONGODB_URL environment variable inside .env.local');
 }
 
 // Global variable for caching the connection
