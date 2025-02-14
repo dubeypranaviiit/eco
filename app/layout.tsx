@@ -6,12 +6,13 @@ import Header from "@/components/Header";
 import { Toaster } from "react-hot-toast";
 import Sidebar from "@/components/Sidebar/Sidebar";
 const inter = Inter({subsets:['latin']});
-import { getUserByEmail } from "@/database/action";
+import { getUserByEmail,getAvailableRewards } from "@/database/action";
 export default function RootLayout({children,}:{
  children:React.ReactNode
 }){
    const [sidebarOpen,setSidebarOpen] = useState(false);
    const [totalEarnings,setTotalEarnings]= useState(0);
+
    useEffect(() => {
     const fetchTotalEarnings = async () => {
       try {
@@ -21,13 +22,13 @@ export default function RootLayout({children,}:{
           console.log('user from layout', user);
           
           if (user) {
-            // const availableRewards = await getAvailableRewards(user.id) as any
+            const availableRewards = await getAvailableRewards(user.id) as any
             // console.log('availableRewards from layout', availableRewards);
-                        // setTotalEarnings(availableRewards)
+                        setTotalEarnings(availableRewards)
           }
         }
       } catch (error) {
-        console.error('Error fetching total earnings:', error)
+        console.log('Error fetching total earnings:', error)
       }
     }
 

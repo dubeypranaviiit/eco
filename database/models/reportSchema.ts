@@ -35,7 +35,10 @@ const reportSchema: Schema<IReport> = new Schema(
       type: String,
     },
     verificationResults: {
-      type: Schema.Types.Mixed,
+      // type: Schema.Types.Mixed,
+      wasteType: { type: String },
+      quantity: { type: String },
+      confidence: { type: Number },
     },
     status: {
       type: String,
@@ -49,6 +52,6 @@ const reportSchema: Schema<IReport> = new Schema(
   },
   { timestamps: true }
 )
-const Report =  mongoose.model<IReport>("Report", reportSchema);
+const Report =mongoose.models?.Report ||  mongoose.model<IReport>("Report", reportSchema);
 // mongoose.models.Report ||
 export default Report;

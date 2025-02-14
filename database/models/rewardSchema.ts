@@ -49,4 +49,4 @@ const rewardsSchema: Schema<IRewards> = new Schema(
   { timestamps: true } // Automatically adds `createdAt` and `updatedAt` fields
 );
 
-export const Reward = mongoose.model<IRewards>("Reward", rewardsSchema);
+export const Reward =mongoose.models?.Reward || mongoose.model<IRewards>("Reward", rewardsSchema);

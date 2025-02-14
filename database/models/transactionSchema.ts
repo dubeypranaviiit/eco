@@ -18,7 +18,7 @@ const transactionsSchema: Schema<ITransactions> = new Schema(
     type: {
       type: String,
       required: true,
-      enum: ["earned", "redeemed"], // Ensures the value is either 'earned' or 'redeemed'
+      enum: ["earned", "redeemed", "earned_report", "earned_collect"], // Ensures the value is either 'earned' or 'redeemed'
       maxlength: 20, // Equivalent to varchar(20) in PostgreSQL
     },
     amount: {
@@ -38,7 +38,7 @@ const transactionsSchema: Schema<ITransactions> = new Schema(
   { timestamps: false } // Disable automatic `createdAt` and `updatedAt` fields
 );
 
-export const Transaction = mongoose.model<ITransactions>(
+export const Transaction =mongoose.models ?.Transaction || mongoose.model<ITransactions>(
   "Transaction",
   transactionsSchema
 );

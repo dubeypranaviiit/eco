@@ -33,7 +33,7 @@ const collectedWastesSchema: Schema<ICollectedWaste> = new Schema(
   { timestamps: true } // Automatically adds `createdAt` and `updatedAt` fields
 );
 
-export const CollectedWaste = mongoose.model<ICollectedWaste>(
+export const CollectedWaste =mongoose.models?.CollectedWaste || mongoose.model<ICollectedWaste>(
   "CollectedWaste",
   collectedWastesSchema
 );

@@ -33,7 +33,7 @@ const notificationsSchema: Schema<INotification> = new Schema(
   { timestamps: { createdAt: true, updatedAt: false } } // Automatically adds `createdAt` field only
 );
 
-export const Notification = mongoose.model<INotification>(
+export const Notification =mongoose.models?.Notification || mongoose.model<INotification>(
   "Notification",
   notificationsSchema
 );

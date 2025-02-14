@@ -22,6 +22,7 @@ const userSchema:Schema<IUser>= new Schema({
         required:true
     }
 },{timestamps:true});
-const User =  mongoose.model<IUser>('User', userSchema);
+// const User =  mongoose.model<IUser>('User', userSchema);
 // mongoose.models.User ||
+const User = mongoose.models ?.User || mongoose.model<IUser>('User', userSchema);
 export default User;
