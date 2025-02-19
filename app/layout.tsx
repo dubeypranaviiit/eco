@@ -24,7 +24,7 @@ export default function RootLayout({children,}:{
           if (user) {
             const availableRewards = await getAvailableRewards(user.id) as any
             // console.log('availableRewards from layout', availableRewards);
-                        setTotalEarnings(availableRewards)
+            setTotalEarnings(availableRewards)
           }
         }
       } catch (error) {

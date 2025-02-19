@@ -35,6 +35,7 @@ export async function createUser(email: string, name: string) {
     }
   }
 export async function getUserByEmail(email:string){
+  await dbConnect(); 
     try{
         const existingUser = await User.findOne({email})
         return existingUser
@@ -44,6 +45,7 @@ export async function getUserByEmail(email:string){
     }
   }
 export async function createNotification(userId: string, message: string, type: string) {
+  await dbConnect(); 
     try {
       const notification = await  Notification.create({userId,message,type})
       return notification;
@@ -53,6 +55,7 @@ export async function createNotification(userId: string, message: string, type: 
     }
   }
 export async function getUnreadNotifications(userId: string) {
+  await dbConnect(); 
     try {
       const unreadNotifications= await Notification.find({
         userId: userId,
@@ -65,6 +68,7 @@ export async function getUnreadNotifications(userId: string) {
     }
   }
 export async function markNotificationsAsRead(userId: string) {
+  await dbConnect(); 
     try {
       const readNotifications= await Notification.find({
         userId: userId,
@@ -76,6 +80,7 @@ export async function markNotificationsAsRead(userId: string) {
     }
 }
 export async function getRewardTransactions(userId: string) {
+  await dbConnect(); 
     try {
         const transactions = await Transaction.find({ userId })
       .select('id type amount description date') 
@@ -91,6 +96,7 @@ export async function getRewardTransactions(userId: string) {
     }
   }
 export async function getUserBalance(userId: string): Promise<number> {
+  await dbConnect(); 
     try {
       const transactions = await getRewardTransactions(userId) || [];
        if(!transactions) return 0;
@@ -117,6 +123,7 @@ export async function createReport(
   type?: string,
   verificationResult?: VerificationResult
 ) {
+  await dbConnect(); 
   try {
     // Create a new report document
     const report = new Report({
@@ -148,6 +155,7 @@ export async function createReport(
   }
 }
 export async function updateRewardPoints(userId: string, pointsToAdd: number) {
+  await dbConnect(); 
   try {
     const updatedReward = await Reward.findOneAndUpdate(
       { userId }, // Find by userId
@@ -170,6 +178,7 @@ export async function createTransaction(
   amount: number,
   description: string
 ) {
+  await dbConnect(); 
   try {
     const transaction = await Transaction.create({
       userId,
@@ -186,6 +195,7 @@ export async function createTransaction(
   }
 }
 export async function getRecentReports(limit: number = 10): Promise<IReport[]> {
+  await dbConnect(); 
   try {
     const reports = await Report.find()
       .sort({ createdAt: -1 }) // Sort by newest first
@@ -205,8 +215,8 @@ export async function getAvailableRewards(userId: string) {
       throw new Error(' user ID not found');
     }
     // Get user's total points
-    const userTransactions = await getRewardTransactions(userId);
-    const userPoints = userTransactions.reduce((total, transaction) => {
+    const userTransactions = await getRewardTransactions(userId) as any ;
+    const userPoints = userTransactions.reduce((total:any, transaction:any) => {
       return transaction.type.startsWith('earned')
         ? total + transaction.amount
         : total - transaction.amount;
@@ -241,5 +251,87 @@ export async function getAvailableRewards(userId: string) {
   } catch (error) {
     console.error('Error fetching available rewards:', error);
     return [];
+  }
+}
+export async function getWasteCollectionTask(limit:number=20){
+  await dbConnect(); 
+  try{
+    const tasks = await Report.find({},{
+      userId: 1,
+      location:1,
+      wasteType:1,
+      amount:1,
+      status:1,
+      createdAt: 1,
+      collectorId: 1
+    }).limit(limit).lean();
+    return tasks.map(task => ({
+      ...task,
+      createdAt: task.createdAt?.toISOString().split('T')[0], // Format date as YYYY-MM-DD
+    }));
+  }catch(error){
+    console.log("get wasteCollection",error)
+  }
+}
+
+export async  function updateTaskStatus (reportId: number, newStatus: string, collectorId?: number){
+  dbConnect();
+  try {
+    const updateData: any = { status: newStatus };
+    if (collectorId !== undefined) {
+      updateData.collectorId = collectorId;
+    }
+
+    const updatedReport = await Report.findByIdAndUpdate(
+      reportId, 
+      { $set: updateData }, 
+      { new: true, runValidators: true } // Returns updated document & runs validation
+    ).lean(); // Converts Mongoose document to plain object
+
+    return updatedReport;
+  } catch (error) {
+    console.error("Error updating task status:", error);
+    throw error;
+  }
+}
+export async function saveReward(userId: number, amount: number) {
+  try {
+    // Create a new reward document
+    const reward = await Reward.create({
+      userId,
+      name: "Waste Collection Reward",
+      collectionInfo: "Points earned from waste collection",
+      points: amount,
+      level: 1,
+      isAvailable: true,
+    });
+
+    // Create a transaction for this reward
+    await createTransaction(userId, "earned_collect", amount, "Points earned for collecting waste");
+
+    return reward;
+  } catch (error) {
+    console.error("Error saving reward:", error);
+    throw error;
+  }
+}
+export async function saveCollectedWaste(
+  reportId: string,
+  collectorId: string, 
+  verificationResult: any
+) {
+  try {
+    // Create a new collected waste document
+    const collectedWaste = await CollectedWaste.create({
+      reportId,
+      collectorId,
+      collectionDate: new Date(),
+      status: "verified",
+    });
+
+    return collectedWaste;
+  } catch (error) {
+    console.error("Error saving collected waste:", error);
+    throw error;
   }
 }

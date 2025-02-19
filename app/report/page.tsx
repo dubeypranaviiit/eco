@@ -441,7 +441,7 @@ return (
               id="amount"
               name="amount"
               // value={newReport.amount}
-              value={verificationResult.amount}
+              value={verificationResult?.quantity}
               onChange={handleInputChange}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300 bg-gray-100"
