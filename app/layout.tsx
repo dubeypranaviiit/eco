@@ -1,56 +1,36 @@
-"use client"
-import { useState,useEffect } from "react";
-import {Inter} from "next/font/google"
-import "./globals.css"
-import Header from "@/components/Header";
+"use client";
+
+import { Inter } from "next/font/google";
+import "./globals.css";
+
 import { Toaster } from "react-hot-toast";
-import Sidebar from "@/components/Sidebar/Sidebar";
-const inter = Inter({subsets:['latin']});
-import { getUserByEmail,getAvailableRewards } from "@/database/action";
-export default function RootLayout({children,}:{
- children:React.ReactNode
-}){
-   const [sidebarOpen,setSidebarOpen] = useState(false);
-   const [totalEarnings,setTotalEarnings]= useState(0);
+import { ClerkProvider } from "@clerk/nextjs";
+import Navbar from "@/components/home/NavBar";
+import Footer from "@/components/home/Footer";
 
-   useEffect(() => {
-    const fetchTotalEarnings = async () => {
-      try {
-        const userEmail = localStorage.getItem('userEmail')
-        if (userEmail) {
-          const user = await getUserByEmail(userEmail)
-          console.log('user from layout', user);
-          
-          if (user) {
-            const availableRewards = await getAvailableRewards(user.id) as any
-            // console.log('availableRewards from layout', availableRewards);
-            setTotalEarnings(availableRewards)
-          }
-        }
-      } catch (error) {
-        console.log('Error fetching total earnings:', error)
-      }
-    }
+const inter = Inter({ subsets: ["latin"] });
 
-    fetchTotalEarnings()
-  }, [])
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
 
-  return(
-    <html lang="en">
-<body className={inter.className}>
-   <div className="min-h-screen bg-gray-50 flex flex-col">
-    <Header onMenuClick={()=>setSidebarOpen(!setSidebarOpen)} totalEarnings={totalEarnings}/>
-    <div className="flex flex-1">
-      <Sidebar open={sidebarOpen}  />
-      <main className="flex-1 p-4 lg:p-8 ml-0 lg:ml-64 transition-all duration-200 ">
-    {
-      children
-    }
-      </main>
-    </div>
-   </div>
-<Toaster />
-</body>
+  return (
+        <ClerkProvider>
+         
+        <html lang="en">
+      <body className="flex flex-col min-h-screen w-screen">
+    
+           <Navbar />
+        <main className="flex-grow">
+          {children}
+        </main>
+      
+       
+       <Footer />
+      </body>
     </html>
-  )
+     </ClerkProvider>
+  );
 }

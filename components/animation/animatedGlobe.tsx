@@ -1,13 +1,17 @@
 import { Globe } from "lucide-react";
 
-export  function AnimatedGlobe(){
-    return(
-      <div className="relative w-32 h-32 mx-auto mb-8">
-      <div className="absolute inset-0 rounded-full bg-green-500 opacity-20 animate-pulse"></div>
-      <div className="absolute inset-2 rounded-full bg-green-400 opacity-40 animate-ping"></div>
-      <div className="absolute inset-4 rounded-full bg-green-300 opacity-60 animate-spin"></div>
-      <div className="absolute inset-6 rounded-full bg-green-200 opacity-80 animate-bounce"></div>
-      <Globe className="absolute inset-0 m-auto h-16 w-16 text-green-600 animate-pulse" />
+export function AnimatedGlobe() {
+  return (
+    <div className="relative w-40 h-40 mx-auto mb-10">
+
+      <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-green-400 via-emerald-500 to-teal-400 blur-xl animate-pulse opacity-30"></div>
+
+  
+      <div className="absolute inset-1 rounded-full border-4 border-green-300 border-dashed animate-spin-slow"></div>
+
+      <div className="absolute inset-4 rounded-full bg-white shadow-2xl flex items-center justify-center">
+        <Globe className="h-14 w-14 text-green-600 animate-wiggle" />
+      </div>
     </div>
-    );
- }
+  );
+}

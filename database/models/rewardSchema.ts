@@ -1,52 +1,15 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose from 'mongoose';
 
-export interface IRewards extends Document {
-  userId: mongoose.Schema.Types.ObjectId;
-  points: number;
-  level: number;
-  isAvailable: boolean;
-  description?: string; 
-  name: string;
-  collectionInfo: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+const rewardSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  points: { type: Number, default: 0 },
+  level: { type: Number, default: 1 },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
+  isAvailable: { type: Boolean, default: true },
+  description: String,
+  name: { type: String, required: true },
+  collectionInfo: { type: String, required: true },
+});
 
-const rewardsSchema: Schema<IRewards> = new Schema(
-  {
-    userId: {
-     type: mongoose.Schema.Types.ObjectId,
-         ref: "Reports",
-    },
-    points: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    level: {
-      type: Number,
-      required: true,
-      default: 1,
-    },
-    isAvailable: {
-      type: Boolean,
-      required: true,
-      default: true,
-    },
-    description: {
-      type: String,
-    },
-    name: {
-      type: String,
-      required: true,
-      maxlength: 255, // Equivalent to varchar(255) in PostgreSQL
-    },
-    collectionInfo: {
-      type: String,
-      required: true,
-    },
-  },
-  { timestamps: true } // Automatically adds `createdAt` and `updatedAt` fields
-);
-
-export const Reward =mongoose.models?.Reward || mongoose.model<IRewards>("Reward", rewardsSchema);
+export const Reward =mongoose.models.Reward|| mongoose.model('Reward', rewardSchema);

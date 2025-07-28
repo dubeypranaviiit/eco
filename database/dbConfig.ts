@@ -1,64 +1,15 @@
-// import mongoose from 'mongoose';
-// const MONGODB_URL: string = process.env.MONGODB_URL || 'mongodb://localhost:27017/Ed-tech';
-
-// if (!MONGODB_URL) {
-//   throw new Error('Please define the MONGODB_URL environment variable inside .env.local');
-// }
-
-// // Global variable for caching the connection
-// interface MongooseCache {
-//   conn: mongoose.Connection | null;
-//   promise: Promise<mongoose.Connection> | null;
-// }
-
-// // Use global to maintain a cache of the connection in development
-// declare global {
-//   var mongooseCache: MongooseCache;
-// }
-
-// let cached = global.mongooseCache || { conn: null, promise: null };
-
-// if (!global.mongooseCache) {
-//   global.mongooseCache = cached;
-// }
-
-// async function dbConnect(): Promise<mongoose.Connection> {
-//   if (cached.conn) {
-//     console.log('Using existing MongoDB connection');
-//     return cached.conn;
-//   }
-
-//   if (!cached.promise) {
-//     console.log('Creating new MongoDB connection...');
-    
-//     cached.promise = mongoose.connect(MONGODB_URL)
-//       .then((mongoose) => mongoose.connection);
-//   }
-
-//   try {
-//     cached.conn = await cached.promise;
-//     console.log('MongoDB Connected Successfully');
-//   } catch (error) {
-//     console.error('MongoDB connection error:', error);
-//     cached.promise = null; // Reset promise cache on failure
-//     throw error;
-//   }
-
-//   return cached.conn;
-// }
-
-// export default dbConnect;
 import mongoose from "mongoose";
-
-const MONGODB_URL = process.env.MONGODB_URL as string;
-
-if (!MONGODB_URL) {
-  throw new Error("Please define the MONGODB_URI environment variable");
-}
-
+const MONGODB_URL: string = process.env.MONGODB_URL!;
 const dbConnect = async () => {
-
-  await mongoose.connect(MONGODB_URL);
+     mongoose.connect(MONGODB_URL)
+    .then(()=>{
+        console.log(`Database connected successfully`);
+    })
+    .catch((error)=>{
+        console.log(`Error while connecting db`);
+        console.log(error);
+        process.exit(1)
+    })
 };
 
 export default dbConnect;
