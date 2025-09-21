@@ -93,7 +93,7 @@ export async function GET(req: Request) {
     }
 
     const reports = await Report.find({ userId: user._id }).sort({ createdAt: -1 });
-
+    console.log(reports );
     return NextResponse.json(reports, { status: 200 });
   } catch (error) {
     console.error("Error fetching reports:", error);

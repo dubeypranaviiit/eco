@@ -22,8 +22,8 @@ const Banner: React.FC<BannerProps> = ({
   };
 
   return (
-    <section className="py-20 bg-green-500 text-white">
-      <div className="container mx-auto px-4 text-center">
+    <section className="py-20  bg-green-500 text-white">
+      <div className="container mx-auto px-4 text-center mt-10">
         <h2 className="text-4xl font-bold mb-4">{title}</h2>
         <p className="text-xl mb-8">{subtitle}</p>
         <button

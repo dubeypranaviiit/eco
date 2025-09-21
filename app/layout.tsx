@@ -7,7 +7,7 @@ import { Toaster } from "react-hot-toast";
 import { ClerkProvider } from "@clerk/nextjs";
 import Navbar from "@/components/home/NavBar";
 import Footer from "@/components/home/Footer";
-
+import Script from "next/script";
 const inter = Inter({ subsets: ["latin"] });
 
 export default async function RootLayout({
@@ -29,6 +29,10 @@ export default async function RootLayout({
       
        
        <Footer />
+          <Script
+          src="https://checkout.razorpay.com/v1/checkout.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
      </ClerkProvider>
