@@ -11,16 +11,16 @@ const benefits = [
 export default function WhyTreesMatter() {
   return (
     <section className="py-20 bg-white relative overflow-hidden">
-      {/* Decorative background shapes */}
+    
       <div className="absolute -top-16 -left-16 w-72 h-72 bg-green-200 opacity-20 rounded-full blur-3xl"></div>
       <div className="absolute -bottom-20 -right-16 w-80 h-80 bg-emerald-300 opacity-20 rounded-full blur-3xl"></div>
 
       <div className="container mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
-        <img
-          src="/trees.jpg"
-          alt="Tree plantation"
-          className="rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-500"
-        />
+         <img
+  src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1200&auto=format&fit=crop"
+  alt="Tree plantation"
+  className="rounded-xl shadow-xl hover:scale-75 w-[500px] transition-transform duration-500"
+/>
         <div>
           <h2 className="text-4xl md:text-5xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-emerald-500">
             Why Trees Matter 🌍

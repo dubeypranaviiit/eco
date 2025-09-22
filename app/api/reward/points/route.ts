@@ -5,7 +5,7 @@ import { User } from '@/database/models/userSchema'; // ⬅️ Import your custo
 
 export async function GET(req: NextRequest) {
   await dbConnect();
-
+  console.log(`reponce come`);
   try {
     const { searchParams } = new URL(req.url);
     const clerkId = searchParams.get('clerkId');
@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
     }
 
     const reward = await Reward.findOne({ userId: user._id });
-
+  console.log(reward);
     if (!reward) {
       return NextResponse.json({ points: 0, level: 0, message: 'No reward data found' });
     }

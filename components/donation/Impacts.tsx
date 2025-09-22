@@ -1,7 +1,7 @@
 import React from "react";
 import { FaTree, FaLeaf, FaDollarSign } from "react-icons/fa";
 
-// --- Types ---
+
 interface ImpactStats {
   treesPlanted: number;
   moneyRaised: number;
@@ -17,7 +17,7 @@ const ImpactStatsSection: React.FC<{ stats: ImpactStats }> = ({ stats }) => {
         </h2>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {/* Trees Planted */}
+      
           <div className="text-center p-6 rounded-lg bg-green-50 shadow hover:shadow-lg transition duration-300">
             <FaTree className="text-4xl text-emerald-600 mx-auto mb-4" />
             <h3 className="text-2xl font-bold text-gray-800">
@@ -26,7 +26,7 @@ const ImpactStatsSection: React.FC<{ stats: ImpactStats }> = ({ stats }) => {
             <p className="text-gray-600">Trees Planted</p>
           </div>
 
-          {/* Funds Raised */}
+
           <div className="text-center p-6 rounded-lg bg-green-50 shadow hover:shadow-lg transition duration-300">
             <FaDollarSign className="text-4xl text-emerald-600 mx-auto mb-4" />
             <h3 className="text-2xl font-bold text-gray-800">
@@ -35,7 +35,6 @@ const ImpactStatsSection: React.FC<{ stats: ImpactStats }> = ({ stats }) => {
             <p className="text-gray-600">Funds Raised</p>
           </div>
 
-          {/* CO2 Offset */}
           <div className="text-center p-6 rounded-lg bg-green-50 shadow hover:shadow-lg transition duration-300">
             <FaLeaf className="text-4xl text-emerald-600 mx-auto mb-4" />
             <h3 className="text-2xl font-bold text-gray-800">

@@ -21,12 +21,6 @@ interface ImpactStat {
   label: string;
   value: number;
 }
-
-// interface Value {
-//   icon: JSX.Element;
-//   title: string;
-//   desc: string;
-// }
 interface Value {
   icon: React.ReactElement;
   title: string;

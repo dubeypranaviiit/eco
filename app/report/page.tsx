@@ -79,7 +79,6 @@ const Page = () => {
     setSuggestions([]);
   };
 
-  // 📸 File upload
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files[0];
@@ -98,7 +97,7 @@ const Page = () => {
       reader.readAsDataURL(file);
     });
 
-  // ✅ Verify Waste
+ 
   const handleVerify = async () => {
     if (!file) return;
     setVerificationStatus("verifying");
@@ -124,7 +123,7 @@ const Page = () => {
     }
   };
 
-  // ✅ Submit Report
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (verificationStatus !== "success" || !clerkId) return toast.error("Please verify and login first");
@@ -153,7 +152,6 @@ const Page = () => {
     }
   };
 
-  // ✅ Load reports
   useEffect(() => {
     const loadReports = async () => {
       if (clerkId) {
@@ -172,7 +170,7 @@ const Page = () => {
     <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-6xl mx-auto">
       <h1 className="text-3xl font-bold mb-6 text-gray-800">Report Waste</h1>
       <form onSubmit={handleSubmit} className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl mb-12 space-y-6">
-        {/* Upload */}
+       
         <div>
           <label className="block text-lg font-medium text-gray-700 mb-2">Upload Waste Image</label>
           <div className="flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-xl">
@@ -200,7 +198,7 @@ const Page = () => {
           </div>
         )}
 
-        {/* Location */}
+   
         <div className="relative">
           <div className="flex space-x-2">
             <input

@@ -17,7 +17,7 @@ const RewardPointsCard = () => {
 
     const end = reward.points;
     let current = 0;
-    const duration = 1000; // animation duration in ms
+    const duration = 1000; 
     const stepTime = 30;
     const increment = Math.ceil(end / (duration / stepTime));
 

@@ -42,11 +42,11 @@ export default function TopBanner() {
         )}
 
      
-        <a href="#services"
+        <a href="/plantation-donation"
           className="bg-green-600 hover:bg-green-700 text-white text-lg py-2.5 px-4 rounded-full font-semibold transition-all duration-300 transform hover:scale-105"
         >
           Explore Services
-          {/* <ArrowRight className="w-5 h-5" /> */}
+          
         </a>
       </div>
     </section>

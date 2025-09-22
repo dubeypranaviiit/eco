@@ -94,11 +94,7 @@ const validateForm = (): FormErrors => {
         
             <div className="bg-[#2ecc71] p-8 text-white">
               <div className="mb-8">
-                {/* <img
-                  src="https://images.unsplash.com/photo-1550009158-9ebf69173e03"
-                  alt="EcoRevive Logo"
-                  className="h-16 w-auto mb-6"
-                /> */}
+            
                 <h2 className="text-3xl font-bold mb-4">Contact Information</h2>
                 <p className="text-gray-100">
                   Get in touch with us for sustainable waste management solutions.

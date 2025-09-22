@@ -2,16 +2,16 @@ import mongoose from "mongoose";
 
 const donationSchema = new mongoose.Schema(
   {
-    clerkId: { type: String, required: true }, // reference to User.clerkId
+    clerkId: { type: String, required: true },
     amount: { type: Number, required: true },
     currency: { type: String, default: "INR" },
-    paymentId: { type: String, required: true }, // from Stripe/Razorpay
+    paymentId: { type: String, required: true }, 
     status: {
       type: String,
       enum: ["pending", "success", "failed", "refunded"],
       default: "pending",
     },
-    purpose: { type: String }, // e.g. "Tree Plantation"
+    purpose: { type: String }, 
   },
   { timestamps: true }
 );

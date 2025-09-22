@@ -100,3 +100,23 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Failed to fetch reports" }, { status: 500 });
   }
 }
+export async function DELETE(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
+  try {
+    await dbConnect();
+    const { id } = params;
+  console.log(id);
+    const report = await Report.findByIdAndDelete(id);
+
+    if (!report) {
+      return NextResponse.json({ error: "Report not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ message: "Report deleted successfully" });
+  } catch (err) {
+    console.error("Delete report error:", err);
+    return NextResponse.json({ error: "Failed to delete report" }, { status: 500 });
+  }
+}

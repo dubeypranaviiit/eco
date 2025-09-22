@@ -1,5 +1,6 @@
 "use client";
-
+import { ReportProvider } from "@/context/ReportContext";
+import { DonationProvider } from "@/context/DonationContext";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -9,7 +10,8 @@ import Navbar from "@/components/home/NavBar";
 import Footer from "@/components/home/Footer";
 import Script from "next/script";
 const inter = Inter({ subsets: ["latin"] });
-
+import { UserProvider } from "@/context/UserContext";
+import { RewardProvider } from "@/context/RewardContext";
 export default async function RootLayout({
   children,
 }: {
@@ -24,7 +26,15 @@ export default async function RootLayout({
     
            <Navbar />
         <main className="flex-grow">
-          {children}
+          <UserProvider>
+          <DonationProvider>
+            <ReportProvider>
+              <RewardProvider>
+                       {children}
+              </RewardProvider>
+             </ReportProvider>          
+          </DonationProvider>
+       </UserProvider>
         </main>
       
        

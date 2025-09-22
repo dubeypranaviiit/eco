@@ -57,7 +57,7 @@ export default function InstructionsPage() {
         Waste Disposal Instructions
       </h1>
 
-      {/* Why Waste Disposal is Important */}
+   
       <section className="mb-8 bg-green-100 p-4 rounded-lg shadow-md">
         <h2 className="text-xl font-semibold flex items-center">
           <Info className="w-5 h-5 text-blue-500 mr-2" />
@@ -68,7 +68,6 @@ export default function InstructionsPage() {
         </p>
       </section>
 
-      {/* Waste Categories */}
       <section className="space-y-6">
         {wasteGuide.map((item, index) => (
           <div key={index} className="bg-gray-100 p-4 rounded-lg shadow-md flex items-center">
@@ -81,7 +80,7 @@ export default function InstructionsPage() {
         ))}
       </section>
 
-      {/* Benefits of Waste Separation */}
+    
       <section className="mt-8">
         <h2 className="text-xl font-semibold flex items-center">
           <Trash2 className="w-5 h-5 text-green-700 mr-2" />
@@ -105,7 +104,6 @@ export default function InstructionsPage() {
         </div>
       </section>
 
-      {/* Local Waste Disposal Centers */}
       <section className="mt-8 bg-purple-100 p-4 rounded-lg shadow-md">
         <h2 className="text-xl font-semibold flex items-center">
           <MapPin className="w-5 h-5 text-purple-500 mr-2" />
@@ -116,7 +114,6 @@ export default function InstructionsPage() {
         </p>
       </section>
 
-      {/* Resources & External Links */}
       <section className="mt-8">
         <h2 className="text-xl font-semibold flex items-center">
           <ExternalLink className="w-5 h-5 text-blue-500 mr-2" />

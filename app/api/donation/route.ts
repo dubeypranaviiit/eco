@@ -26,3 +26,29 @@ export async function POST(req: Request) {
     );
   }
 }
+
+
+export async function GET(req: Request) {
+  await dbConnect();
+
+  try {
+    const { searchParams } = new URL(req.url);
+    const clerkId = searchParams.get("clerkId");
+
+    if (!clerkId) {
+      return NextResponse.json(
+        { error: "clerkId is required" },
+        { status: 400 }
+      );
+    }
+
+    const donations = await Donation.find({ clerkId }).sort({ createdAt: -1 });
+    return NextResponse.json(donations, { status: 200 });
+  } catch (err) {
+    console.error("Error fetching donations:", err);
+    return NextResponse.json(
+      { error: "Failed to fetch donations" },
+      { status: 500 }
+    );
+  }
+}

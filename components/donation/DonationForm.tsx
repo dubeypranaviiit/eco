@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import axios from "axios";
+import { useUser } from "@clerk/nextjs";
+import { useDonations } from "@/context/DonationContext";
 
 interface DonationFormProps {
   onDonate?: () => void;
@@ -10,26 +11,31 @@ const DonationForm: React.FC<DonationFormProps> = ({ onDonate }) => {
   const [amount, setAmount] = useState<number>(100);
   const [loading, setLoading] = useState(false);
 
+  const { user } = useUser();
+  const clerkId = user?.id;
+
+  const { createDonation } = useDonations(); // Using context
+
   const handlePayment = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-
-    if (amount < 100) {
-      alert("Minimum donation amount is ₹50");
-      setLoading(false);
+    if (!clerkId) {
+      alert("You must be logged in to donate");
       return;
     }
 
-    try {
-      const { data } = await axios.post("/api/create-checkout-session", { amount });
-      if (!data.success) throw new Error("Checkout session creation failed");
+    if (amount < 100) {
+      alert("Minimum donation amount is ₹100");
+      return;
+    }
 
-      // Redirect to Stripe Checkout
-      window.location.href = data.url;
+    setLoading(true);
+    try {
+      // Use context function instead of calling axios directly
+      await createDonation(clerkId, amount);
 
       if (onDonate) onDonate();
     } catch (err) {
-      console.error("Stripe error:", err);
+      console.error(err);
       alert("Payment failed, please try again.");
     } finally {
       setLoading(false);

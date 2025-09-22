@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌍 EcoRevive – Environment Conservation & Rewards Platform  
 
-## Getting Started
+EcoRevive is a full-stack **Next.js 14** application designed to drive **environmental conservation** through:  
+- 🌱 **Tree plantation donations**  
+- ♻️ **Recycling & waste management reports**  
+- 🎖 **Reward points and leaderboard system**  
 
-First, run the development server:
+Our mission is to **sustain tomorrow** by empowering individuals and organizations to contribute to a greener planet.  
 
+---
+
+## ⚡ Features  
+
+- 📝 **Report Dashboard** – Submit recycling/waste reports with verification flow.  
+- 🌱 **Tree Plantation Donations** – Contribute directly to reforestation projects.  
+- 🎖 **Rewards** – Earn eco-points for donations and contributions.  
+- 🏆 **Leaderboard** – Recognizes top contributors in environment conservation.  
+- 👤 **User Profiles** – Secure authentication & user management with Clerk.  
+- 📊 **Impact Tracking** – Track **trees planted, CO₂ reduced, waste recycled**.  
+
+---
+
+## 🛠 Tech Stack  
+
+- **Frontend**: Next.js 14 (App Router) + TypeScript + Tailwind CSS  
+- **Backend**: Next.js API Routes + Mongoose  
+- **Database**: MongoDB  
+- **Auth**: Clerk  
+- **Payments**: Stripe / Razorpay  
+- **State Management**: React Context API  
+- **UI Components**: shadcn/ui + Lucide Icons  
+
+---
+
+## 🚀 Getting Started  
+
+### 1️⃣ Clone the repo  
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+git clone https://github.com/dubeypranaviiit/ecorevive.git
+cd ecorevive

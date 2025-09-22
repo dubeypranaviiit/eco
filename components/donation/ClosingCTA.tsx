@@ -1,13 +1,8 @@
 import React, { useRef } from "react";
 import DonationForm from "./DonationForm";
-
-
-
 interface HeroProps {
   onDonateClick: () => void;
 }
-
-// export default function ClosingCTA({onDonateClick})
 const ClosingCTA: React.FC<HeroProps> = ({ onDonateClick }) =>{ 
 
   return (
