@@ -104,7 +104,8 @@ const Page = () => {
 
     try {
       const genAI = new GoogleGenerativeAI(geminiApiKey!);
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      // const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
       const base64Data = await readFileAsBase64(file);
       const imageParts = [{ inlineData: { data: base64Data.split(",")[1], mimeType: file.type } }];
       const prompt = `You are an expert in waste management. Analyze the image and return JSON with keys: wasteType, quantity, confidence.`;
