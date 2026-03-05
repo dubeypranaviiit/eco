@@ -1,5 +1,4 @@
 # 🌍 EcoRevive – Environment Conservation & Rewards Platform  
-
 EcoRevive is a full-stack **Next.js 14** application designed to drive **environmental conservation** through:  
 - 🌱 **Tree plantation donations**  
 - ♻️ **Recycling & waste management reports**  

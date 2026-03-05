@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "jsx": "preserve", // ✅ This tells TypeScript how to handle JSX
+    "jsx": "react-jsx", // ✅ This tells TypeScript how to handle JSX
     "types": [
       "react"
     ],
@@ -37,7 +37,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
