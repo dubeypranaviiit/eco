@@ -5,6 +5,7 @@ const donationSchema = new mongoose.Schema(
     clerkId: { type: String, required: true },
     amount: { type: Number, required: true },
     currency: { type: String, default: "INR" },
+    orderId: { type: String },
     paymentId: { type: String, required: true }, 
     status: {
       type: String,

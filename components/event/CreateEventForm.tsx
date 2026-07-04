@@ -66,7 +66,7 @@ export default function CreateEventForm({ open, onOpenChange }: Props) {
         maxVolunteers: Number(formData.maxVolunteers)
       })
 
-      toast.success('Event created successfully 🌱')
+      toast.success('Event created successfully')
 
       setFormData({
         title: '',

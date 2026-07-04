@@ -133,7 +133,6 @@ export default function EventsPage() {
             <EventCard
               key={event._id}
               event={event}
-              isJoined={event.isJoined}
               onJoin={joinEvent}
               onDelete={deleteEvent}
             />

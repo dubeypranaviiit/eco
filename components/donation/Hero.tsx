@@ -20,8 +20,8 @@ const Hero: React.FC<HeroProps> = ({ onDonateClick }) =>{
     <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-emerald-400 opacity-20 rounded-full blur-3xl"></div>
 
     <h1 className="text-5xl font-extrabold mb-6">Plant a Tree, Plant Hope</h1>
-    <p className="text-xl mb-8 max-w-xl mx-auto">
-      Join us in creating a greener future for generations to come 🌱
+    <p className="text-lg sm:text-xl text-emerald-100/90 leading-relaxed max-w-2xl mx-auto">
+      Join us in creating a greener future for generations to come
     </p>
     <button
         onClick={onDonateClick}  

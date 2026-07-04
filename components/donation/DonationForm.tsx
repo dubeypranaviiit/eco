@@ -49,7 +49,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ onDonate }) => {
           Plant a Tree, Plant Hope
         </h2>
         <p className="text-gray-700 mb-6">
-          Your donation will help us plant trees and create a greener future 🌱
+          Your donation will help us plant trees and create a greener future.
         </p>
 
         <form onSubmit={handlePayment} className="space-y-4">
@@ -78,7 +78,7 @@ const DonationForm: React.FC<DonationFormProps> = ({ onDonate }) => {
         </form>
 
         <p className="mt-6 text-gray-500 text-sm">
-          Powered by Stripe. Test payments are supported in development mode.
+          Powered by Razorpay. Test payments are supported in development mode.
         </p>
       </div>
     </section>

@@ -8,7 +8,7 @@ export async function GET() {
   try {
     await dbConnect();
 
-    const { userId } = auth();
+    const { userId } = await auth();
 
     const events = await Event.find().sort({ createdAt: -1 });
 

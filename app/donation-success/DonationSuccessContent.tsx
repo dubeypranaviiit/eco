@@ -18,10 +18,9 @@ export default function DonationSuccessContent() {
   const [donation, setDonation] = useState<Donation | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // ✅ If sessionId missing, redirect immediately
   useEffect(() => {
     if (!sessionId) {
-      router.replace("/"); // go back home instantly
+      router.replace("/");
     }
   }, [sessionId, router]);
 
@@ -36,12 +35,12 @@ export default function DonationSuccessContent() {
         const stripeRes = await axios.get(`/api/checkout-session?sessionId=${sessionId}`);
         const data: Donation = {
           amount: stripeRes.data.amount,
-          paymentId: stripeRes.data.id,
-          status: stripeRes.data.payment_status === "paid" ? "success" : "pending",
+          paymentId: stripeRes.data.paymentId,
+          status: stripeRes.data.status === "success" ? "success" : "pending",
         };
 
         if (data.status === "success") {
-          await axios.post("/api/donations/update-status", {
+          await axios.post("/api/donation/update-status", {
             paymentId: sessionId,
             status: "success",
           });
@@ -59,7 +58,6 @@ export default function DonationSuccessContent() {
     fetchDonationStatus();
     interval = setInterval(fetchDonationStatus, 3000);
 
-    // ✅ Auto-redirect after 60s
     timer = setTimeout(() => router.push("/"), 60000);
 
     return () => {
@@ -80,12 +78,11 @@ export default function DonationSuccessContent() {
       <p className="text-gray-500 mb-6">
         Payment ID: <span className="font-mono">{donation.paymentId}</span>
       </p>
-      <div className="text-6xl text-green-500 animate-pulse">❤️</div>
+      <div className="text-6xl text-green-500 animate-pulse">♥</div>
       <p className="text-gray-400 mt-6">
         You will be redirected to the homepage shortly.
       </p>
 
-      {/* Optional: Give user a manual redirect button */}
       <button
         onClick={() => router.push("/")}
         className="mt-4 px-4 py-2 bg-emerald-600 text-white rounded-lg"

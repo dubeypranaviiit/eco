@@ -10,7 +10,6 @@ export async function DELETE(
   try {
     await dbConnect();
     const { id } = params;
-  console.log(id);
     const report = await Report.findByIdAndDelete(id);
 
     if (!report) {

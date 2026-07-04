@@ -5,7 +5,6 @@ import { User } from "@/database/models/userSchema";
 
 export async function GET() {
   await dbConnect();
-  console.log("/api/leaderboard (Rewards) hit");
 
   try {
     const rewards = await Reward.aggregate([

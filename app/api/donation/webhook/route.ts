@@ -1,34 +1,75 @@
 import { NextResponse } from "next/server";
-import Stripe from "stripe";
+import crypto from "crypto";
 import dbConnect from "@/database/dbConfig";
 import { Donation } from "@/database/models/donationSchema";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: "2025-08-27.basil" });
-
 export async function POST(req: Request) {
-  const sig = req.headers.get("stripe-signature")!;
-  const body = await req.text();
-
-  let event: Stripe.Event;
-
   try {
-    event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!);
-  } catch (err) {
-    console.error("Webhook signature verification failed:", err);
-    return NextResponse.json({ received: false }, { status: 400 });
+    const signature = req.headers.get("x-razorpay-signature");
+    if (!signature) {
+      return NextResponse.json({ error: "Missing signature" }, { status: 400 });
+    }
+
+    const body = await req.text();
+    const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
+
+    if (!webhookSecret) {
+      return NextResponse.json({ error: "Razorpay webhook secret not configured" }, { status: 500 });
+    }
+
+    const expectedSignature = crypto
+      .createHmac("sha256", webhookSecret)
+      .update(body)
+      .digest("hex");
+
+    if (expectedSignature !== signature) {
+      console.error("Webhook signature verification failed");
+      return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+    }
+
+    const event = JSON.parse(body);
+    await dbConnect();
+
+    if (event.event === "order.paid" || event.event === "payment.captured") {
+      const payment = event.payload.payment?.entity;
+      const orderId = payment?.order_id || event.payload.order?.entity?.id;
+      const paymentId = payment?.id;
+
+      if (!orderId || !paymentId) {
+        return NextResponse.json({ error: "Missing order or payment info in event payload" }, { status: 400 });
+      }
+
+      const existingSuccessPayment = await Donation.findOne({ paymentId, status: "success" });
+      if (existingSuccessPayment) {
+        return NextResponse.json({ received: true });
+      }
+
+      const pendingDonation = await Donation.findOne({ paymentId: orderId });
+
+      if (pendingDonation) {
+        if (pendingDonation.status === "success") {
+          return NextResponse.json({ received: true });
+        }
+        pendingDonation.paymentId = paymentId;
+        pendingDonation.status = "success";
+        await pendingDonation.save();
+      } else {
+        const clerkId = payment.notes?.clerkId || "anonymous";
+        const amount = payment.amount / 100;
+        await Donation.create({
+          clerkId,
+          amount,
+          currency: payment.currency || "INR",
+          paymentId: paymentId,
+          status: "success",
+          purpose: "Tree Plantation",
+        });
+      }
+    }
+
+    return NextResponse.json({ received: true });
+  } catch (err: any) {
+    console.error("Razorpay Webhook handler error:", err);
+    return NextResponse.json({ error: err.message || "Webhook handling failed" }, { status: 500 });
   }
-
-  await dbConnect();
-
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object as Stripe.Checkout.Session;
-
-    // Update donation status in DB
-    await Donation.findOneAndUpdate(
-      { paymentId: session.id },
-      { status: "success" }
-    );
-  }
-
-  return NextResponse.json({ received: true });
 }

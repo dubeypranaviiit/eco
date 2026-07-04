@@ -48,12 +48,47 @@ export const DonationProvider = ({ children }: { children: React.ReactNode }) =>
     setLoading(true);
     try {
       const { data } = await axios.post("/api/create-checkout-session", { clerkId, amount });
-      if (data.url) {
-        window.location.href = data.url;
+      if (data.success && data.order) {
+        const order = data.order;
+
+        const options = {
+          key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "",
+          amount: order.amount,
+          currency: order.currency,
+          name: "EcoRevive",
+          description: "Tree Plantation Donation",
+          order_id: order.id,
+          handler: async function (response: any) {
+            try {
+              const verifyRes = await axios.post("/api/verify-payment", {
+                orderId: order.id,
+                paymentId: response.razorpay_payment_id,
+                signature: response.razorpay_signature,
+              });
+
+              if (verifyRes.data.success) {
+                window.location.href = `/donation-success?session_id=${order.id}`;
+              } else {
+                alert("Payment verification failed");
+              }
+            } catch (err) {
+              console.error("Payment verification request failed:", err);
+              alert("Payment verification request failed. Please contact support.");
+            }
+          },
+          theme: {
+            color: "#059669",
+          },
+        };
+
+        const rzp = new (window as any).Razorpay(options);
+        rzp.open();
+      } else {
+        throw new Error(data.error || "Failed to create payment session");
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error creating donation", err);
-      alert("Failed to create donation. Please try again.");
+      alert(err.message || "Failed to create donation. Please try again.");
     } finally {
       setLoading(false);
     }

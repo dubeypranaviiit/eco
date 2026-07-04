@@ -3,12 +3,9 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { MapPin, Upload, CheckCircle, Loader, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import toast from "react-hot-toast";
 import { createReport, getReportsByUser } from "@/lib/actions/reportActions";
 import { useUser } from "@clerk/nextjs";
-
-const geminiApiKey = process.env.GEMINI_API_KEY;
 
 const Page = () => {
   const { user: clerkUser } = useUser();
@@ -30,7 +27,6 @@ const Page = () => {
   const name = clerkUser?.fullName || "User";
   const clerkId = clerkUser?.id;
 
-  // 📍 Current Location
   const getCurrentLocation = () => {
     if (!navigator.geolocation) return toast.error("Geolocation not supported");
 
@@ -59,7 +55,6 @@ const Page = () => {
     );
   };
 
-  // 📍 Location suggestions
   const fetchPlaces = async (searchTerm: string) => {
     if (!searchTerm) return setSuggestions([]);
     const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchTerm)}`);
@@ -103,22 +98,23 @@ const Page = () => {
     setVerificationStatus("verifying");
 
     try {
-      const genAI = new GoogleGenerativeAI(geminiApiKey!);
-      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
       const base64Data = await readFileAsBase64(file);
-      const imageParts = [{ inlineData: { data: base64Data.split(",")[1], mimeType: file.type } }];
-      const prompt = `You are an expert in waste management. Analyze the image and return JSON with keys: wasteType, quantity, confidence.`;
+      const response = await fetch("/api/report/classify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ base64Data, mimeType: file.type }),
+      });
 
-      const result = await model.generateContent([prompt, ...imageParts]);
-      const text = await result.response.text();
-      const jsonMatch = text.replace(/```json|```/g, "").match(/\{[\s\S]*\}/);
-      if (!jsonMatch) throw new Error("Invalid JSON");
+      if (!response.ok) throw new Error("Classification failed");
+      const resData = await response.json();
+      if (!resData.success) throw new Error(resData.error || "Classification failed");
 
-      const parsed = JSON.parse(jsonMatch[0]);
+      const parsed = resData.classification;
       setVerificationResult(parsed);
       setVerificationStatus("success");
       setNewReport({ ...newReport, type: parsed.wasteType, amount: parsed.quantity });
-    } catch {
+    } catch (err) {
+      console.error(err);
       setVerificationStatus("failure");
     }
   };
